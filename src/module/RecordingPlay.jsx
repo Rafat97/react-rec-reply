@@ -15,10 +15,14 @@ import {
 import { rrwebReStore } from "./contex/utils";
 import { Replayer } from "rrweb";
 import { Link } from "react-router-dom";
+import rrwebPlayer from "rrweb-player";
+import { unpack } from "@rrweb/packer";
+import "rrweb-player/dist/style.css";
 
 const Play = () => {
   const [event, setEvent] = useState([]);
   const { getAllRecording, currentRecodeRef, refreshKeys } = useRecodeReply();
+  const playElement = useRef(null);
 
   const recEventSelect = async (id) => {
     const key = `${id}`;
@@ -33,10 +37,37 @@ const Play = () => {
     console.log(newArr);
     if (newArr.length <= 0) {
       alert("No records found");
+      return;
     }
-    const replayer = new Replayer(newArr);
-    console.log(replayer);
-    replayer.play();
+    // const replayer = new Replayer(newArr);
+    // console.log(replayer);
+    // replayer.play();
+
+    const player = new rrwebPlayer({
+      target: playElement.current, // customizable root element
+      props: {
+        events: newArr,
+        unpackFn: unpack,
+        autoPlay: false,
+        controls: true,
+        width: 1024,
+        height: 576,
+        skipInactive: true,
+        inactiveColor: "#f70202",
+        //   //   onReady: () => console.log("ready"),
+        //   //   onLoading: () => console.log("loading"),
+        //   //   onFinish: () => console.log("finish"),
+        //   //   onCapturing: () => console.log("capturing"),
+        //   //   onStoppedCapturing: () => console.log("stoppedCapturing"),
+        //   //   onPlay: () => console.log("play"),
+        //   //   onPause: () => console.log("pause"),
+        //   //   onSeek: (e) => console.log("seek", e),
+      },
+    });
+
+    player.getReplayer().on("start", () => {
+      console.log("start");
+    });
   };
 
   useEffect(() => {
@@ -75,6 +106,7 @@ const Play = () => {
             <div onClick={() => deleteRec(recording)}>delete</div>
           </div>
         ))}
+        <div ref={playElement}></div>
       </div>
     </>
   );

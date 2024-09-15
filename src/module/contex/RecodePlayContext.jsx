@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { rrwebReStore } from "./utils";
 import { useRecodePlayId } from "./RecodePlayIdContext";
 import * as rrweb from "rrweb";
+import { pack } from "@rrweb/packer";
 
 const RecodePlayContext = createContext({
   currentRecodeRef: null,
@@ -47,18 +48,16 @@ export function RecodePlayContextProvider({ children }) {
 
     const uns = rrweb.record({
       emit(event) {
-        // events.push(event);
         eventsRef.current.push(event);
-
-        // if (events.length > 10) {
-        //   saveReplayEvents(events);
-        // }
+        // console.log(event);
       },
+      recordCrossOriginIframes: true,
+      packFn: pack,
     });
 
     const interval = setInterval(() => {
       saveDataInStore();
-    }, 5000);
+    }, 1000);
 
     // console.log("RecodePlayContextProvider", currentRecodeRef);
     return () => {
