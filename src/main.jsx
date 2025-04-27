@@ -10,6 +10,7 @@ import Recording from "./module/Recording.jsx";
 import { Outlet, Link } from "react-router-dom";
 import Root from "./root.jsx";
 import RecordingPlay from "./module/RecordingPlay.jsx";
+import CodeMirror from "./module/CodeMirror";
 
 const router = createBrowserRouter([
   {
@@ -19,10 +20,14 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Recording />,
+        element: <CodeMirror />,
       },
       {
         path: "/rec",
+        element: <Recording />,
+      },
+      {
+        path: "/rec-play",
         element: <RecordingPlay />,
       },
     ],

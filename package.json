@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@rrweb/packer": "2.0.0-alpha.17",
+    "codemirror": "^6.0.1",
     "localforage": "^1.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
